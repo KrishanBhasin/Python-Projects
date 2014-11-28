@@ -69,7 +69,7 @@ def collect_email_addresses(list_of_santas):
 		print("Please enter %s's email address"%name)
 		while 1:
 			email_addy = str(input())
-			if not re.match(r"[^@]+@[^@]+\.[^@]+", email_addy):
+			if not re.match(r"[^@]+@[^@]+\.[^@]+", email_addy):		#regex for [chars]@[chars].[chars]
 				print("Please enter a valid email address")
 			else:
 				email_is_correct = input("%s - is this correct? (y/n)" % email_addy)
