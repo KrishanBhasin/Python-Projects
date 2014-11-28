@@ -45,6 +45,7 @@ def generate_matchups(exception_dict, list_of_santas):
     list2 = list(list_of_santas)
     shuffle(list1)
 
+    #this is inelegant
     a = list(zip(list1,list2))
     b = []
     for entry in a:
@@ -53,24 +54,43 @@ def generate_matchups(exception_dict, list_of_santas):
 
 def test_matchup(matchup,exception_dict):
     """Test the proposed matchups agains the disallowed paths"""
+	#TODO check for infinite loops - impossible solutions!!!!
     for i in range(len(exception_dict)):
         print(matchup[i][0] + "->" + matchup[i][1])
+        #if giftee is in gifters list of exceptions:
         if matchup[i][1] in exception_dict[matchup[i][0]]:
             return False
     return True
 
+def collect_email_addresses(list_of_santas):
+	email_addresses = {}
+	for name in list_of_santas:
+		print("Please enter %s's email address"%name)
+		email_addy = str(input())
+		email_addresses[name] = email_addy
+	return email_addresses
+
+	
 #d is a test dictionary - collect_users and set_exceptions works, this is to speed up testing
-d = {'krish':['sav','krish'],'sav':['krish','sav'],'gabs':['seb','krish','gabs'],'seb':['gabs','seb'],'tim':['tim']}
+#d = {'krish':['sav','krish'],'sav':['krish','sav'],'gabs':['seb','krish','gabs'],'seb':['gabs','seb'],'tim':['tim']}
 
 #######
 #this is a loop that could be used in the final program?
 #naively generate matchups until one is found that does not break the rules?
+
+users = collect_users()
+emails = collect_email_addresses(users)
+print(emails)
+exceptions = set_exceptions(users)
 valid = False
+counter = 0
 while not valid:
-    matchup = generate_matchups(d,"krish sav gabs seb tim".split(" "))
-    print(matchup)
-    valid = test_matchup(matchup,d)
+	counter +=1
+	matchup = generate_matchups(exceptions,users)
+	print(matchup)
+	valid = test_matchup(matchup,exceptions)
 #end of potential real code
 ######
 
 print("done")
+print("took %d iterations" % counter)
