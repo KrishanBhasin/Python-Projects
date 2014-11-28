@@ -1,4 +1,5 @@
 from random import shuffle
+import re
 
 def collect_users():
     """Collect a list of all Santas from the user"""
@@ -66,8 +67,17 @@ def collect_email_addresses(list_of_santas):
 	email_addresses = {}
 	for name in list_of_santas:
 		print("Please enter %s's email address"%name)
-		email_addy = str(input())
-		email_addresses[name] = email_addy
+		while 1:
+			email_addy = str(input())
+			if not re.match(r"[^@]+@[^@]+\.[^@]+", email_addy):
+				print("Please enter a valid email address")
+			else:
+				email_is_correct = input("%s - is this correct? (y/n)" % email_addy)
+				if email_is_correct.lower() == 'yes' or email_is_correct.lower() == 'y':
+					email_addresses[name] = email_addy
+					break
+				else:
+					print("Please re-enter the email address")
 	return email_addresses
 
 	
