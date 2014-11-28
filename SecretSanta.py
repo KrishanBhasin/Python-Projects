@@ -17,21 +17,21 @@ def set_exceptions(list_of_santas):
     """Set up any gifting exclusions that may exist"""
     print("Please set any matchup exclusions\n")
 
+    #dict comprehension here would be more pythonic
     exception_dict = {}
     for name in list_of_santas:
         exception_dict[name] = []
 
     
     for name in list_of_santas:
-        exception_dict[name] = ['name']
-        #print("%s may not draw: %s" % name, exception_dict[name].join(" "))
+        exception_dict[name] = [name]
         print("Who can %s not draw?" %name)
         name_in = input()
         while 1:
             if name_in == "":
                 break
             if name_in not in list_of_santas or name_in == name:
-                print("Please enter a valid name;\n They must be a santa, and cannot exclude themself")
+                print("Please enter a valid name;\nThey must be a Santa, and cannot be themself")
             else:
                  exception_dict[name].append(name_in)
                  print("Who else can %s not draw?" %name)
