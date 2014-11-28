@@ -43,22 +43,28 @@ def generate_matchups(exception_dict, list_of_santas):
     shuffle(list1)
     shuffle(list2)
 
-    return list(zip(list1,list2))
+    a = list(zip(list1,list2))
+    b = []
+    for entry in a:
+        b.append(list(entry))
+    return b
 
 def test_matchup(matchup,exception_dict):
-    for i in range(len(list1)):
-        print(list1[i])
-        print(exception_dict[list2[i]])
-        print(" ")
-        if list2[i] in exception_dict[list1[i]]:
+    for i in range(len(exception_dict)):
+        print(matchup[i][0] + "->" + matchup[i][1])
+        if matchup[i][1] in exception_dict[matchup[i][0]]:
             return False
-
     return True
 
 
-d = {'krish':['sav'],'sav':['krish'],'gabs':['seb','krish'],'seb':['gabs']}
+d = {'krish':['sav','krish'],'sav':['krish','sav'],'gabs':['seb','krish','gabs'],'seb':['gabs','seb'],'tim':['tim']}
 
-while generate_matchups(d,"krish sav gabs seb".split(" ")):
-    pass
+
+valid = False
+while not valid:
+    matchup = generate_matchups(d,"krish sav gabs seb tim".split(" "))
+    print(matchup)
+    valid = test_matchup(matchup,d)
+
 
 print("done")
