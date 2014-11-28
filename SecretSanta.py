@@ -62,4 +62,3 @@ while generate_matchups(d,"krish sav gabs seb".split(" ")):
     pass
 
 print("done")
-print(a)
