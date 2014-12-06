@@ -47,7 +47,7 @@ def check_if_dead(x,y, board1, board2):
 				cells_around_me += board1[x+i][y+j]
 			except IndexError:
 				continue
-	if cells_around_me ==3:
+	if cells_around_me ==3 or cells_around_me==2:
 		board2[x][y] = 1
 	else:
 		board2[x][y] = 0
