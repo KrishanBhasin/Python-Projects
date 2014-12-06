@@ -80,7 +80,19 @@ def collect_email_addresses(list_of_santas):
 					print("Please re-enter the email address")
 	return email_addresses
 
+def see_giftee(matchup,list_of_santas):
+	#enter your name
+	while 1:
+		name = str(input("Please enter your name: \n"))
+		print(matchup)
+		if name in matchup:
+			print("You (%s) drew %s" %( name,matchup[name]))
+		else:
+			print("No such person exists")
+	return None
 	
+	#see the name and email address of your match
+
 #d is a test dictionary - collect_users and set_exceptions works, this is to speed up testing
 #d = {'krish':['sav','krish'],'sav':['krish','sav'],'gabs':['seb','krish','gabs'],'seb':['gabs','seb'],'tim':['tim']}
 
@@ -89,18 +101,23 @@ def collect_email_addresses(list_of_santas):
 #naively generate matchups until one is found that does not break the rules?
 
 users = collect_users()
-emails = collect_email_addresses(users)
-print(emails)
+#emails = collect_email_addresses(users)
+#print(emails)
 exceptions = set_exceptions(users)
 valid = False
 counter = 0
 while not valid:
 	counter +=1
 	matchup = generate_matchups(exceptions,users)
-	print(matchup)
 	valid = test_matchup(matchup,exceptions)
+
+##not working at the moment, needs to be tweaked
+##turn matchups into a dictionary?
+##main refactor here is each Santa needs to be an OBJECT
+##that stores its own email address, exceptions, and giftee	
+#see_giftee(matchup,users)
+
 #end of potential real code
 ######
-
 print("done")
 print("took %d iterations" % counter)
