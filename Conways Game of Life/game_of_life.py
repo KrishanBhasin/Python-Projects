@@ -34,10 +34,39 @@ def populate_board(board):
 	return(board)
 
 #copy over to second board
+def check_if_dead(x,y, board1, board2):
+	#this function is only called on LIVING cells
+	cells_around_me = 0
+	for i in [-1,0,1]:
+		for j in [-1,0,1]:
+			if i==0 and j==0:
+				continue
+			if (x+i)<0 or (y+j)<0:	#prevent negative indexing
+				continue
+			try:
+				cells_around_me += board1[x+i][y+j]
+			except IndexError:
+				continue
+	if cells_around_me ==3:
+		board2[x][y] = 1
+	else:
+		board2[x][y] = 0
+	return
+
 
 #apply rules to second board
 
 #loop back and forth between the two boards
 
-board = create_board(30)
-board = populate_board(board)
+board1,board2 = create_board(30), create_board(30)
+#board1 = populate_board(board1)
+board1[0][1] = 1
+board1[1][0] = 1
+
+for i in range(len(board1)):
+	for j in range(len(board1[i])):
+		check_if_dead(i,j,board1,board2)
+
+print(board1)
+print("****")
+print(board2)
