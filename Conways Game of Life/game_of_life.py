@@ -2,11 +2,13 @@ from tkinter import *
 import numpy
 
 window = Tk()
-canvas = Canvas(window, width = 800, height = 800)
+canvas = Canvas(window, width = 1000, height = 1000)
+
+canvas.pack()
 
 #create the board
 def create_board(size):
-	board = numpy.identity(size,int)
+	board = numpy.zeros((size,size))
 	return board
 	
 #seed across the board
@@ -17,12 +19,8 @@ def generate_seeds():
 	"""
 	while 1:
 		rand1 = numpy.random.rand()
-		if rand1 > 0.5:
-			rand2 = numpy.random.rand()
-			if rand2>0.5:
-				return 1
-			else:
-				return 0
+		if rand1 > 0.95:
+			return 1
 		else:
 			return 0
 
@@ -52,21 +50,33 @@ def check_if_dead(x,y, board1, board2):
 	else:
 		board2[x][y] = 0
 	return
+	
+def drawbox(board1):				# draws a blue box for 'alive', a green box for 'dead'
+	for y in range(len(board1)):
+		for x in range(len(board1)):
+			if board1[y][x] == 1:
+				canvas.create_rectangle(5*x, 5*y, 5*x+5, 5*y+5, fill="#220C65", outline="#DFF2A6", width=1)
+			elif board1[y][x] == 0:
+				canvas.create_rectangle(5*x, 5*y, 5*x+5, 5*y+5, fill="#B7F3D5", outline="#DFF2A6", width=1)
 
 
 #apply rules to second board
 
 #loop back and forth between the two boards
 
-board1,board2 = create_board(30), create_board(30)
-#board1 = populate_board(board1)
+board1,board2 = create_board(100), create_board(100)
+board1 = populate_board(board1)
 board1[0][1] = 1
 board1[1][0] = 1
 
-for i in range(len(board1)):
-	for j in range(len(board1[i])):
-		check_if_dead(i,j,board1,board2)
+while 1==1:
 
-print(board1)
-print("****")
-print(board2)
+	for i in range(len(board1)):
+		for j in range(len(board1[i])):
+			check_if_dead(i,j,board1,board2)
+
+
+	drawbox(board1)
+
+	board1 = board2
+	canvas.update()
