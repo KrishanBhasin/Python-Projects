@@ -40,11 +40,32 @@ class cell:
 		self.num_of_neighbors = 0
 		
 		
-	def numOfNeighbors(self):
-		return
-		
+	def countNeighbors(self):
+		for i in [-1,0,1]:
+			for j in [-1,0,1]:
+				if i==0 and j==0:
+					continue
+				elif (self.x+i)<0 or (self.y+j)<0:	#prevent negative indexing
+					continue
+				try:
+					cells_around_me += board1[self.x+i][self.y+j]
+				except IndexError:
+					continue
+		if self.num_of_neighbors ==3 or self.num_of_neighbors==2:
+			board2[x][y] = 1
+		else:
+			board2[x][y] = 0
+			
+
+num_of_generations = int(input("How many generations do you wish to simulate?"))
+			
 my_game = game(20)
 
 my_game.drawbox()
 
-input()
+for _ in range(num_of_generations):
+	my_game.drawbox()
+	input()
+	
+
+	
