@@ -26,7 +26,6 @@ def populate_board(board):
 	return(board)
 
 def check_if_dead(x,y, board1, board2):
-	#this function is only called on LIVING cells
 	cells_around_me = 0
 	for i in [-1,0,1]:
 		for j in [-1,0,1]:
