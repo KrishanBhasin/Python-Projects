@@ -23,7 +23,8 @@ class game:
 				else:
 					self.box_colour = "#B7F3D5"
 					
-				self.canvas.create_rectangle(self.cell_size * i, self.cell_size * j,self.cell_size * i + self.cell_size,self.cell_size * j + self.cell_size, fill=self.box_colour, outline="#FFFFFF",width=2)
+				self.canvas.create_rectangle(self.cell_size * i, self.cell_size * j,self.cell_size * i + self.cell_size,
+				self.cell_size * j + self.cell_size, fill=self.box_colour, outline="#FFFFFF",width=2)
 
 		return
 
