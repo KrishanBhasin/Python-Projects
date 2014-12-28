@@ -77,7 +77,7 @@ class game:
 
 class cell:
 	"""An object for the cells in Conway's Game of Life"""
-
+	#TODO make the cells change colour based on how many generations they've been alive
 	def __init__(self, y, x):
 		self.x = x
 		self.y = y
