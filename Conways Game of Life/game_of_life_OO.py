@@ -1,8 +1,6 @@
-
 #TODO - automate the generation cyling
 #TODO - generate more templates (gun, oscillator,LWSS etc)
 #TODO - allow rotation of templates
-#TODO - don't require knowledge of the board object in the methods of the cell object!
 
 from tkinter import *
 import time
