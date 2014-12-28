@@ -22,6 +22,7 @@ class game:
 		return None
 
 	def drawbox(self):
+	"""A method to draw the canvas on screen, to show the cells"""
 		for j in range(self.number_of_cells):
 			for i in range(self.number_of_cells):
 				if self.board[i][j].alive:
@@ -35,6 +36,7 @@ class game:
 		return
 		
 	def countNeighbors(self,x,y):
+	"""A method to count the neighbours of a 'cell' object stored inside the 'game' object"""
 		self.board[x][y].num_of_neighbors = 0
 		for j in [-1, 0, 1]:
 			for i in [-1, 0, 1]:
@@ -52,6 +54,7 @@ class game:
 					continue
 
 	def createGlider(self, x, y):
+	"""Method to create a Glider on the game board"""
 		if x<1 or y<1 or x>self.number_of_cells-1 or y>self.number_of_cells-1:
 			return None		#rudimentary index error/negative indexing protection
 		self.board[x - 1][y - 1].alive = True
@@ -73,6 +76,7 @@ class cell:
 		self.alive = False
 
 	def livingCellCheck(self):
+	"""Method to check if a cell STAYS alive"""
 		if self.num_of_neighbors in [2,3]:
 			self.alive = True
 		else:
@@ -80,6 +84,7 @@ class cell:
 
 
 	def deadCellCheck(self):
+	"""Method to check if a cell comes to life from DEAD"""
 		if self.num_of_neighbors == 3:
 			self.alive = True
 		else:
@@ -90,16 +95,17 @@ class cell:
 if __name__ == "__main__":
 	num_of_generations = int(input("How many generations do you wish to simulate?\n"))
 
+	#create a game object
 	my_game = game(20)
 
-	my_game.drawbox()
-
+	#create a still life on the board...
 	my_game.board[1][1].alive = True
 	my_game.board[1][2].alive = True
 	my_game.board[2][2].alive = True
 
-
 	my_game.createGlider(20, 20)
+	
+	#draw the game on screen
 	my_game.drawbox()
 
 	for _ in range(num_of_generations):
