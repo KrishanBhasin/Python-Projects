@@ -22,7 +22,7 @@ class game:
 		return None
 
 	def drawbox(self):
-	"""A method to draw the canvas on screen, to show the cells"""
+		"""A method to draw the canvas on screen, to show the cells"""
 		for j in range(self.number_of_cells):
 			for i in range(self.number_of_cells):
 				if self.board[i][j].alive:
@@ -36,7 +36,7 @@ class game:
 		return
 		
 	def countNeighbors(self,x,y):
-	"""A method to count the neighbours of a 'cell' object stored inside the 'game' object"""
+		"""A method to count the neighbours of a 'cell' object stored inside the 'game' object"""
 		self.board[x][y].num_of_neighbors = 0
 		for j in [-1, 0, 1]:
 			for i in [-1, 0, 1]:
@@ -54,7 +54,7 @@ class game:
 					continue
 
 	def createGlider(self, x, y):
-	"""Method to create a Glider on the game board"""
+		"""Method to create a Glider on the game board"""
 		if x<1 or y<1 or x>self.number_of_cells-1 or y>self.number_of_cells-1:
 			return None		#rudimentary index error/negative indexing protection
 		self.board[x - 1][y - 1].alive = True
@@ -66,6 +66,14 @@ class game:
 	def createGun(self,x,y):
 		#TODO create a glider gun
 		return None
+		
+	def create2PeriodOscillator(self,x,y):
+		"""creates a vertical 2 period oscillator"""
+		if x<1 or y<1 or x>self.number_of_cells-1 or y>self.number_of_cells-1:
+			return None		#rudimentary index error/negative indexing protection
+		self.board[x][y - 1].alive = True
+		self.board[x][y].alive = True
+		self.board[x][y + 1].alive = True
 
 class cell:
 	"""An object for the cells in Conway's Game of Life"""
@@ -76,7 +84,7 @@ class cell:
 		self.alive = False
 
 	def livingCellCheck(self):
-	"""Method to check if a cell STAYS alive"""
+		"""Method to check if a cell STAYS alive"""
 		if self.num_of_neighbors in [2,3]:
 			self.alive = True
 		else:
@@ -84,7 +92,7 @@ class cell:
 
 
 	def deadCellCheck(self):
-	"""Method to check if a cell comes to life from DEAD"""
+		"""Method to check if a cell comes to life from DEAD"""
 		if self.num_of_neighbors == 3:
 			self.alive = True
 		else:
@@ -103,7 +111,11 @@ if __name__ == "__main__":
 	my_game.board[1][2].alive = True
 	my_game.board[2][2].alive = True
 
-	my_game.createGlider(20, 20)
+	my_game.createGlider(5, 18)
+	
+	my_game.createGlider(10,10)
+	
+	my_game.create2PeriodOscillator(12,2)
 	
 	#draw the game on screen
 	my_game.drawbox()
