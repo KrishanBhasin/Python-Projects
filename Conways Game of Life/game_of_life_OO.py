@@ -10,20 +10,20 @@ import time
 class game:
 	"""An object to store the game"""
 
-	def __init__(self, size):
-		self.size = size
+	def __init__(self, number_of_cells):
+		self.number_of_cells = number_of_cells
 		self.cell_size = 25
 		window = Tk()
-		self.canvas = Canvas(window, width=size * self.cell_size, height=size * self.cell_size)
+		self.canvas = Canvas(window, width=number_of_cells * self.cell_size, height=number_of_cells * self.cell_size)
 		self.canvas.pack()
 
-		self.board = [[cell(i, j) for i in range(size)] for j in range(size)]
+		self.board = [[cell(i, j) for i in range(number_of_cells)] for j in range(number_of_cells)]
 
 		return None
 
 	def drawbox(self):
-		for j in range(self.size):
-			for i in range(self.size):
+		for j in range(self.number_of_cells):
+			for i in range(self.number_of_cells):
 				if self.board[i][j].alive:
 					self.box_colour = "#220C65"
 				else:
@@ -52,6 +52,8 @@ class game:
 					continue
 
 	def createGlider(self, x, y):
+		if x==0 or y == 0 or x==self.number_of_cells-1 or y==self.number_of_cells-1:
+			return None		#rudimentary index error/negative indexing protection
 		self.board[x - 1][y - 1].alive = True
 		self.board[x][y - 1].alive = True
 		self.board[x + 1][y - 1].alive = True
@@ -101,12 +103,12 @@ if __name__ == "__main__":
 	my_game.drawbox()
 
 	for _ in range(num_of_generations):
-		for a in range(my_game.size):
-			for b in range(my_game.size):
+		for a in range(my_game.number_of_cells):
+			for b in range(my_game.number_of_cells):
 				my_game.countNeighbors(a,b)
 
-		for a in range(my_game.size):
-			for b in range(my_game.size):
+		for a in range(my_game.number_of_cells):
+			for b in range(my_game.number_of_cells):
 				#print(my_game.board[a][b].num_of_neighbors)
 				if my_game.board[a][b].alive:
 					my_game.board[a][b].livingCellCheck()
