@@ -45,7 +45,7 @@ class game:
 				elif (self.board[x][y].x + i) < 0 or (self.board[x][y].y + j < 0):	#avoid negative indexing
 					continue
 				try:
-					if my_game.board[self.board[x][y].x + i][self.board[x][y].y + j].alive:	#increase count if living cell is found
+					if self.board[self.board[x][y].x + i][self.board[x][y].y + j].alive:	#increase count if living cell is found
 						self.board[x][y].num_of_neighbors += 1
 						continue
 					else:	#ignore blank squares
@@ -97,10 +97,8 @@ class cell:
 			self.alive = True
 		else:
 			self.alive = False
-
-######################################################################################
-
-if __name__ == "__main__":
+	
+def main():	
 	num_of_generations = int(input("How many generations do you wish to simulate?\n"))
 
 	#create a game object
@@ -119,7 +117,7 @@ if __name__ == "__main__":
 	
 	#draw the game on screen
 	my_game.drawbox()
-
+	
 	for _ in range(num_of_generations):
 		for a in range(my_game.number_of_cells):
 			for b in range(my_game.number_of_cells):
@@ -135,5 +133,10 @@ if __name__ == "__main__":
 		input()
 		
 		my_game.drawbox()
+
+######################################################################################
+
+if __name__ == "__main__":
+	main()
 
 
