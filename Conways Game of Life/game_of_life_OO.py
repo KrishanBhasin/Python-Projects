@@ -8,7 +8,7 @@ from tkinter import *
 import time
 
 class game:
-	"""An object to store the game"""
+	"""An object to store the board for Conway's Game of Life"""
 
 	def __init__(self, number_of_cells):
 		self.number_of_cells = number_of_cells
@@ -52,7 +52,7 @@ class game:
 					continue
 
 	def createGlider(self, x, y):
-		if x==0 or y == 0 or x==self.number_of_cells-1 or y==self.number_of_cells-1:
+		if x<1 or y<1 or x>self.number_of_cells-1 or y>self.number_of_cells-1:
 			return None		#rudimentary index error/negative indexing protection
 		self.board[x - 1][y - 1].alive = True
 		self.board[x][y - 1].alive = True
@@ -61,8 +61,8 @@ class game:
 		self.board[x][y + 1].alive = True
 		
 	def createGun(self,x,y):
-		self.board
-
+		#TODO create a glider gun
+		return None
 
 class cell:
 	"""An object for the cells in Conway's Game of Life"""
@@ -99,7 +99,7 @@ if __name__ == "__main__":
 	my_game.board[2][2].alive = True
 
 
-	my_game.createGlider(5, 10)
+	my_game.createGlider(20, 20)
 	my_game.drawbox()
 
 	for _ in range(num_of_generations):
