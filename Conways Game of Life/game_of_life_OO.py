@@ -3,7 +3,7 @@
 #TODO - allow rotation of templates
 
 from tkinter import *
-import time
+
 
 class game:
 	"""An object to store the board for Conway's Game of Life"""
