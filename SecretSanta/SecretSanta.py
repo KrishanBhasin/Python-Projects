@@ -81,6 +81,10 @@ def collect_email_addresses(list_of_santas):
 	return email_addresses
 
 def see_giftee(matchup,list_of_santas):
+
+	for _ in range(100):
+		print("")
+
 	#enter your name
 	while 1:
 		name = str(input("Please enter your name: \n"))
@@ -110,6 +114,7 @@ while not valid:
 	counter +=1
 	matchup = generate_matchups(exceptions,users)
 	valid = test_matchup(matchup,exceptions)
+	print("error, starting matchup again")
 
 ##not working at the moment, needs to be tweaked
 ##turn matchups into a dictionary?

@@ -1,3 +1,9 @@
+
+#TODO - automate the generation cyling
+#TODO - generate more templates (gun, oscillator,LWSS etc)
+#TODO - allow rotation of templates
+#TODO - don't require knowledge of the board object in the methods of the cell object!
+
 from tkinter import *
 import time
 
@@ -27,6 +33,23 @@ class game:
 				self.cell_size * j + self.cell_size, fill=self.box_colour, outline="#FFFFFF",width=2)
 
 		return
+		
+	def countNeighbors(self,x,y):
+		self.board[x][y].num_of_neighbors = 0
+		for j in [-1, 0, 1]:
+			for i in [-1, 0, 1]:
+				if i == 0 and j == 0:	#avoid counting self
+					continue
+				elif (self.board[x][y].x + i) < 0 or (self.board[x][y].y + j < 0):	#avoid negative indexing
+					continue
+				try:
+					if my_game.board[self.board[x][y].x + i][self.board[x][y].y + j].alive:	#increase count if living cell is found
+						self.board[x][y].num_of_neighbors += 1
+						continue
+					else:	#ignore blank squares
+						continue
+				except IndexError:	#avoid IndexError from index too large
+					continue
 
 	def createGlider(self, x, y):
 		self.board[x - 1][y - 1].alive = True
@@ -47,33 +70,6 @@ class cell:
 		self.y = y
 		self.alive = False
 
-	#self.num_of_neighbors = 0
-
-	def countNeighbors(self):
-		self.num_of_neighbors = 0
-		for j in [-1, 0, 1]:
-			for i in [-1, 0, 1]:
-				#print("Testing coordinate: " + str(self.x+i)+","+str(self.y+j))
-				if i == 0 and j == 0:
-					#print("Not counting self")
-					continue
-				elif (self.x + i) < 0 or (self.y + j < 0):
-					#print("Avoiding negative indexing")
-					continue
-				try:
-					if my_game.board[self.x + i][self.y + j].alive:
-						#print("adding 1 - ")
-						self.num_of_neighbors += 1
-						continue
-					else:
-						#print("passing over a blank square")
-
-						continue
-				except IndexError:
-					#print("Index error caught - attempted to go out of bounds")
-					continue
-
-
 	def livingCellCheck(self):
 		if self.num_of_neighbors in [2,3]:
 			self.alive = True
@@ -89,44 +85,35 @@ class cell:
 
 ######################################################################################
 
+if __name__ == "__main__":
+	num_of_generations = int(input("How many generations do you wish to simulate?\n"))
 
-#TODO - automate the generation cyling
-#TODO - generate more templates (gun, oscillator,LWSS etc)
-#TODO - 
+	my_game = game(20)
 
-
-num_of_generations = int(input("How many generations do you wish to simulate?\n"))
-
-my_game = game(20)
-
-my_game.drawbox()
-
-my_game.board[1][1].alive = True
-my_game.board[1][2].alive = True
-my_game.board[2][2].alive = True
-
-
-my_game.createGlider(5, 10)
-my_game.drawbox()
-
-for _ in range(num_of_generations):
-	for a in range(my_game.size):
-		for b in range(my_game.size):
-			my_game.board[a][b].countNeighbors()
-			#print(my_game.board[a][b].x, my_game.board[a][b].y)
-			#print("number of neighbors: " + str(my_game.board[a][b].num_of_neighbors))
-			#print(my_game.board[a][b].alive)
-			#print("*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*")
-
-	for a in range(my_game.size):
-		for b in range(my_game.size):
-			#print(my_game.board[a][b].num_of_neighbors)
-			if my_game.board[a][b].alive:
-				my_game.board[a][b].livingCellCheck()
-			else:
-				my_game.board[a][b].deadCellCheck()
-	input()
-	
 	my_game.drawbox()
+
+	my_game.board[1][1].alive = True
+	my_game.board[1][2].alive = True
+	my_game.board[2][2].alive = True
+
+
+	my_game.createGlider(5, 10)
+	my_game.drawbox()
+
+	for _ in range(num_of_generations):
+		for a in range(my_game.size):
+			for b in range(my_game.size):
+				my_game.countNeighbors(a,b)
+
+		for a in range(my_game.size):
+			for b in range(my_game.size):
+				#print(my_game.board[a][b].num_of_neighbors)
+				if my_game.board[a][b].alive:
+					my_game.board[a][b].livingCellCheck()
+				else:
+					my_game.board[a][b].deadCellCheck()
+		input()
+		
+		my_game.drawbox()
 
 
