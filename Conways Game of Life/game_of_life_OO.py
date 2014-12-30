@@ -1,6 +1,7 @@
 #TODO - automate the generation cyling
 #TODO - generate more templates (gun, oscillator,LWSS etc)
 #TODO - allow rotation of templates
+#TODO - replace self.alive usage with a check on self.age instead - age makes alive redundant.
 
 from tkinter import *
 
@@ -23,10 +24,7 @@ class game:
 		"""A method to draw the canvas on screen, to show the cells"""
 		for j in range(self.number_of_cells):
 			for i in range(self.number_of_cells):
-				if self.board[i][j].alive:
-					self.box_colour = "#220C65"
-				else:
-					self.box_colour = "#B7F3D5"
+				self.box_colour = self.board[i][j].colour
 					
 				self.canvas.create_rectangle(self.cell_size * i, self.cell_size * j,self.cell_size * i + self.cell_size,
 				self.cell_size * j + self.cell_size, fill=self.box_colour, outline="#FFFFFF",width=2)
@@ -80,19 +78,32 @@ class cell:
 		self.x = x
 		self.y = y
 		self.alive = False
+		self.age = 0	#use this age to manipulate a hex number, which will choose the colour of the living cell
+		self.colour = "#B7F3D5"
+		
+	def updateColour(self):
+		if self.age == 0:
+			self.colour = "#B7F3D5"
+		else:
+			self.colour = "#%06x".upper() % (self.age*10)
+		print(self.colour)
+		
 
 	def livingCellCheck(self):
 		"""Method to check if a cell STAYS alive"""
 		if self.num_of_neighbors in [2,3]:
 			self.alive = True
+			self.age+=1
 		else:
 			self.alive = False
+			self.age = 0
 
 
 	def deadCellCheck(self):
 		"""Method to check if a cell comes to life from DEAD"""
 		if self.num_of_neighbors == 3:
 			self.alive = True
+			self.age = 1
 		else:
 			self.alive = False
 	
@@ -128,6 +139,7 @@ def main():
 					my_game.board[a][b].livingCellCheck()
 				else:
 					my_game.board[a][b].deadCellCheck()
+				my_game.board[a][b].updateColour()
 		input()
 		
 		my_game.drawbox()
