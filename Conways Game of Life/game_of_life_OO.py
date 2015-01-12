@@ -1,7 +1,7 @@
 #TODO - automate the generation cyling
 #TODO - generate more templates (gun, oscillator,LWSS etc)
 #TODO - allow rotation of templates
-#TODO - replace self.alive usage with a check on self.age instead - age makes alive redundant.
+#TODO - replace self.alive usage with a check on self.age!=0 instead - 'age' makes 'alive' redundant.
 
 from tkinter import *
 
@@ -36,18 +36,18 @@ class game:
 		self.board[x][y].num_of_neighbors = 0
 		for j in [-1, 0, 1]:
 			for i in [-1, 0, 1]:
-				if i == 0 and j == 0:	#avoid counting self
-					continue
-				elif (self.board[x][y].x + i) < 0 or (self.board[x][y].y + j < 0):	#avoid negative indexing
-					continue
+				if i == 0 and j == 0:
+					continue #avoid counting self
+				elif (self.board[x][y].x + i) < 0 or (self.board[x][y].y + j < 0):
+					continue #avoid negative indexing
 				try:
-					if self.board[self.board[x][y].x + i][self.board[x][y].y + j].alive:	#increase count if living cell is found
-						self.board[x][y].num_of_neighbors += 1
+					if self.board[self.board[x][y].x + i][self.board[x][y].y + j].alive:	
+						self.board[x][y].num_of_neighbors += 1 #increase count if living cell is found
 						continue
-					else:	#ignore blank squares
-						continue
-				except IndexError:	#avoid IndexError from index too large
-					continue
+					else:	
+						continue #ignore blank squares
+				except IndexError:	
+					continue #avoid IndexError from index too large
 
 	def createGlider(self, x, y):
 		"""Method to create a Glider on the game board"""
@@ -73,19 +73,21 @@ class game:
 
 class cell:
 	"""An object for the cells in Conway's Game of Life"""
-	#TODO make the cells change colour based on how many generations they've been alive
 	def __init__(self, y, x):
 		self.x = x
 		self.y = y
 		self.alive = False
-		self.age = 0	#use this age to manipulate a hex number, which will choose the colour of the living cell
+		self.age = 0
 		self.colour = "#B7F3D5"
 		
 	def updateColour(self):
+		"""Method to update the colour of the cell based on its age"""
 		if self.age == 0:
 			self.colour = "#B7F3D5"
 		else:
-			self.colour = "#%06x".upper() % (self.age*10)
+			self.colour = "#1232" + "%02x".upper() % (self.age*7)
+			if len(self.colour)>7:
+				self.colour="#1232FF"
 		print(self.colour)
 		
 
@@ -108,8 +110,15 @@ class cell:
 			self.alive = False
 	
 def main():	
-	num_of_generations = int(input("How many generations do you wish to simulate?\n"))
-
+	#the below section could/should be moved to the board object.
+	num_of_generations = input("How many generations do you wish to simulate?\n")
+	try:
+		num_of_generations = int(num_of_generations)
+	except:
+		raise ValueError("Please try again and enter an integer")
+		
+		
+		
 	#create a game object
 	my_game = game(20)
 
