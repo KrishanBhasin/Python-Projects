@@ -6,7 +6,7 @@
 from tkinter import *
 
 
-class game:
+class board:
 	"""An object to store the board for Conway's Game of Life"""
 
 	def __init__(self, number_of_cells):
@@ -120,7 +120,7 @@ def main():
 		
 		
 	#create a game object
-	my_game = game(20)
+	my_game = board(20)
 
 	#create a still life on the board...
 	my_game.board[1][1].alive = True
