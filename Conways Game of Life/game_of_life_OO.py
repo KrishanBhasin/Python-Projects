@@ -3,6 +3,9 @@
 #TODO - allow rotation of templates
 #TODO - replace self.alive usage with a check on self.age!=0 instead - 'age' makes 'alive' redundant.
 
+#NB - getters and setters not used as "un pythonic".
+#TODO implement python @property decorators instead
+
 from tkinter import *
 
 
