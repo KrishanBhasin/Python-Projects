@@ -1,14 +1,10 @@
 CONWAY'S GAME OF LIFE
 ======
 
-First draft:
-Just got it working!
+Two versions of Conway's Game of Life:
 
-Canvas renders much larger than the required space - will make it automatically scale to the size of the grid.
+1. Procedully written
+  * Written fairly quickly and abandoned in favour of the object-based version, as I was not learning anything from it.
 
-Random seed generation is boring to look at - need to implement a better way.
-
-It is currently fairly inefficient - will be looked at.
-
-OO:
-Rules are not implemented correctly and some of the code is redundant/poorly written (eg the cell born/life functions) - not complicated refactoring in these cases.
+2. Object Oriented
+  * Written to understand objects and classes in Python, a continual work-in-progress
